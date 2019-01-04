@@ -1,1 +1,1 @@
-# mentorlabs
+from app import app
