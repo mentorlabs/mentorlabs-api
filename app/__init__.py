@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from flask_marshmallow import Marshmallow
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
+from flasgger import Swagger
 
 from config import Config
 
@@ -14,6 +15,7 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 migrate = Migrate(app, db)
 jwt = JWTManager(app)
+swagger = Swagger(app)
 
 @app.before_first_request
 def initialize_database():
@@ -23,4 +25,4 @@ from app.api import bp as api_bp
 app.register_blueprint(api_bp, url_prefix='/api')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
