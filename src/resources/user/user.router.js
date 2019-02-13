@@ -3,7 +3,7 @@ import { me, updateMe } from './user.controllers'
 
 const router = Router()
 
-router.get('/', me)
-router.put('/', updateMe)
+router.get('/me', me)
+router.put('/me', updateMe)
 
 export default router
