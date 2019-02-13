@@ -3,8 +3,8 @@ import router from '../user.router'
 describe('user router', () => {
   test('has requesting user routes', () => {
     const routes = [
-      { path: 'api/users/me', method: 'get' },
-      { path: 'api/users/me', method: 'update' },
+      { path: '/me', method: 'get' },
+      { path: '/me', method: 'put' },
     ]
 
     routes.forEach(route => {
