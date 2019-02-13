@@ -1,5 +1,9 @@
 import mongoose from 'mongoose'
-import _ from 'loadsh'
+import _ from 'lodash'
+import cuid from 'cuid'
+import { User } from './src/resources/user/user.model'
+
+const models = { User }
 
 const url = 
     process.env.MONGODB_URI ||
