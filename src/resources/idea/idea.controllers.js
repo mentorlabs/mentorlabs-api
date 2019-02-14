@@ -1,11 +1,10 @@
 import { BaseController } from '../../utils/BaseController'
 import { Idea } from './idea.model'
-import { crudControllers } from '../../utils/crudControllers'
+// import { crudControllers } from '../../utils/crudControllers'
 
 class IdeaControllers extends BaseController {
-  constructor(mongooseModel) {
-    super(mongooseModel)
-  }
+  // no constructor needed because default
+  // https://stackoverflow.com/questions/45924326/standardjs-es6-extended-class-useless-constructor
 
   customIdeaMethod(req, res) {
     res.json({ message: 'hello from custom route' })

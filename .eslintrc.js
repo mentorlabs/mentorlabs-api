@@ -6,8 +6,13 @@ module.exports = {
   env: {
     node: true
   },
-  extends: ['standard', 'prettier', 'plugin:jest/recommended'],
-  plugins: ['prettier', 'jest', 'prettier/recommended'],
+  extends: [
+    'standard',
+    'prettier',
+    'plugin:jest/recommended',
+    'plugin:prettier/recommended'
+  ],
+  plugins: ['prettier', 'jest'],
   rules: {
     'promise/catch-or-return': 'error',
     'prettier/prettier': [
