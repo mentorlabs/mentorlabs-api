@@ -9,18 +9,20 @@ describe('Project model', () => {
         type: String,
         required: true,
         trim: true,
-        maxlength: 50
+      })
+    })
+    
+    test('description', () => {
+      const { description } = Project.schema.obj
+      expect(description).toEqual({
+        type: String,
+        required: true
       })
     })
 
     test('notes', () => {
       const { notes } = Project.schema.obj
-      expect(notes).toEqual(String)
-    })
-
-    test('approved', () => {
-      const approved = Project.schema.obj
-      expect(approved).toEqual(Boolean)
+      expect(notes).toEqual({ type: String })
     })
 
     test('createdBy', () => {
@@ -30,6 +32,22 @@ describe('Project model', () => {
         ref: 'user',
         required: true
       })
+    })
+
+    test('manager', () => {
+      const { manager } = Project.schema.obj
+      expect(manager).toEqual({
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'user',
+      })
+    })
+
+    test('team', () => {
+      const { team } = Project.schema.obj
+      expect(team).toEqual([{
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'user',
+      }])
     })
   })
 })
