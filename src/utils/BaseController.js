@@ -1,14 +1,15 @@
 import _ from 'lodash'
 
 export class BaseController {
-  constructor(model) {
-    console.log('initiation base class')
-    this.model = model
+  constructor(mongooseModel) {
+    this.mongooseModel = mongooseModel
+    this.storage = ['ely']
+    console.log({ here: { ...this } })
   }
 
   async getOne(req, res) {
     try {
-      const doc = await this.model
+      const doc = await this.mongooseModel
         .findOne({ createdBy: req.user._id, _id: req.params.id })
         .lean()
         .exec()
@@ -26,7 +27,7 @@ export class BaseController {
 
   async getMany(req, res) {
     try {
-      const docs = await this.model
+      const docs = await this.mongooseModel
         .find({ createdBy: req.user._id })
         .lean()
         .exec()
@@ -37,13 +38,27 @@ export class BaseController {
       res.status(400).end()
     }
   }
-  async createOne(req, res) {
+  // async createOne(req, res) {
+  //   let createdBy
+  //   _.isNil(req.user) ? (createdBy = 'default') : (createdBy = req.user._id)
+
+  //   try {
+  //     console.log(req.body)
+  //     const doc = await this.mongooseModel.create({ ...req.body, createdBy })
+  //     res.status(201).json({ data: doc })
+  //   } catch (e) {
+  //     console.error(e)
+  //     res.status(400).json({ error: e })
+  //   }
+  // }
+
+  createOne = async (req, res) => {
     let createdBy
     _.isNil(req.user) ? (createdBy = 'default') : (createdBy = req.user._id)
 
     try {
       console.log(req.body)
-      const doc = await this.model.create({ ...req.body, createdBy })
+      const doc = await this.mongooseModel.create({ ...req.body, createdBy })
       res.status(201).json({ data: doc })
     } catch (e) {
       console.error(e)
@@ -53,7 +68,7 @@ export class BaseController {
 
   async updateOne(req, res) {
     try {
-      const updatedDoc = await this.model
+      const updatedDoc = await this.mongooseModel
         .findOneAndUpdate(
           {
             createdBy: req.user._id,
@@ -78,7 +93,7 @@ export class BaseController {
 
   async removeOne(req, res) {
     try {
-      const removed = await this.model.findOneAndRemove({
+      const removed = await this.mongooseModel.findOneAndRemove({
         createdBy: req.user._id,
         _id: req.params.id
       })
@@ -94,8 +109,7 @@ export class BaseController {
     }
   }
 
-  async getModel(req, res) {
-    console.log('model: ', this.model)
-    res.json({ message: 'hello' })
+  async getModel() {
+    console.log('model: ', this.mongooseModel)
   }
 }
