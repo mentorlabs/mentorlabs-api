@@ -3,8 +3,8 @@ import { Idea } from './idea.model'
 import { crudControllers } from '../../utils/crudControllers'
 
 class IdeaControllers extends BaseController {
-  constructor(model) {
-    super(model)
+  constructor(mongooseModel) {
+    super(mongooseModel)
   }
 
   customIdeaMethod(req, res) {
@@ -12,8 +12,10 @@ class IdeaControllers extends BaseController {
   }
 }
 
-export const ideaControllers = crudControllers(Idea)
+// export const ideaControllers = crudControllers(Idea)
+//
+const ideaControllers = new IdeaControllers(Idea)
+console.log('in this file')
+export { ideaControllers }
 
-// export const ideaControllers = new IdeaControllers(Idea)
-
-// console.log(ideaControllers.getModel())
+console.log(ideaControllers.getModel())
