@@ -1,5 +1,4 @@
 import { User } from './user.model'
-import { crudControllers } from '../../utils/crud'
 
 export const me = (req, res) => {
     res.status(200).json({ data: req.user })
