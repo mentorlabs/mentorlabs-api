@@ -5,16 +5,26 @@ import { Idea } from './idea.model'
 class IdeaControllers extends BaseController {
   // no constructor needed because default
   // https://stackoverflow.com/questions/45924326/standardjs-es6-extended-class-useless-constructor
+  constructor(mongooseModel) {
+    super(mongooseModel)
+    this.mongooseModel = mongooseModel
+  }
 
-  customIdeaMethod(req, res) {
-    res.json({ message: 'hello from custom route' })
+  getAll = async (req, res) => {
+    try {
+      const docs = await this.mongooseModel
+        .find({})
+        .lean()
+        .exec()
+
+      res.status(200).json({ data: docs })
+    } catch (e) {
+      res.status(400).json(e)
+    }
   }
 }
 
 // export const ideaControllers = crudControllers(Idea)
 //
 const ideaControllers = new IdeaControllers(Idea)
-console.log('in this file')
 export { ideaControllers }
-
-console.log(ideaControllers.getModel())
