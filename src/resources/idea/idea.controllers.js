@@ -1,8 +1,7 @@
-import { BaseController } from '../../utils/BaseController'
 import { Idea } from './idea.model'
-// import { crudControllers } from '../../utils/crudControllers'
+import { PublicBaseController } from '../../utils/PublicBaseController'
 
-class IdeaControllers extends BaseController {
+class IdeaControllers extends PublicBaseController {
   // no constructor needed because default
   // https://stackoverflow.com/questions/45924326/standardjs-es6-extended-class-useless-constructor
   constructor(mongooseModel) {
@@ -10,21 +9,9 @@ class IdeaControllers extends BaseController {
     this.mongooseModel = mongooseModel
   }
 
-  getAll = async (req, res) => {
-    try {
-      const docs = await this.mongooseModel
-        .find({})
-        .lean()
-        .exec()
-
-      res.status(200).json({ data: docs })
-    } catch (e) {
-      res.status(400).json(e)
-    }
-  }
+  // add custom methods if needed
 }
 
-// export const ideaControllers = crudControllers(Idea)
-//
 const ideaControllers = new IdeaControllers(Idea)
+
 export { ideaControllers }
