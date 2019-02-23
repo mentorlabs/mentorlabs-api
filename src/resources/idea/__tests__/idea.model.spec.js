@@ -1,12 +1,12 @@
 import { Idea } from '../idea.model'
 
-describe('Project model', () => {
+describe('Idea model', () => {
   describe('schema', () => {
     test('name', () => {
       const { name } = Idea.schema.obj
       expect(name).toEqual({
         type: String,
-        required: true,
+        required: [true, 'Name must be provided.'],
         trim: true
       })
     })
@@ -15,7 +15,7 @@ describe('Project model', () => {
       const { description } = Idea.schema.obj
       expect(description).toEqual({
         type: String,
-        required: true,
+        required: [true, 'Description must be provided.'],
         trim: true
       })
     })
