@@ -3,14 +3,17 @@ import { ideaControllers } from './idea.controllers'
 
 const ideaRouter = Router()
 
-ideaRouter.get('/', ideaControllers.getMany)
-ideaRouter.get('/:id', ideaControllers.getOne)
+ideaRouter
+  .route('/')
+  .get(ideaControllers.getMany)
+  .post(ideaControllers.createOne)
 
-ideaRouter.post('/', ideaControllers.createOne)
-ideaRouter.post('/destroy/:key', ideaControllers.destroy)
+ideaRouter
+  .route('/:id')
+  .get(ideaControllers.getOne)
+  .put(ideaControllers.updateOne)
+  .delete(ideaControllers.removeOne)
 
-ideaRouter.put('/:id', ideaControllers.updateOne)
-
-ideaRouter.delete('/:id', ideaControllers.removeOne)
+ideaRouter.route('/destroy/:key').post(ideaControllers.destroy)
 
 export default ideaRouter
