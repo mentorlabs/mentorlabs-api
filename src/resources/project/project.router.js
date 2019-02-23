@@ -3,15 +3,15 @@ import controllers from './project.controllers'
 
 const router = Router()
 
-router.route('/')
+router
+  .route('/')
   .get(controllers.getOne)
   .post(controllers.createOne)
 
-
-router.route('/:id')
+router
+  .route('/:id')
   .get(controllers.getOne)
   .put(controllers.updateOne)
   .delete(controllers.removeOne)
 
-
-  export default router
+export default router
