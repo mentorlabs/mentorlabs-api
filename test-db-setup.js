@@ -1,5 +1,10 @@
 import mongoose from 'mongoose'
-import _ from 'loadsh'
+import _ from 'lodash'
+import cuid from 'cuid'
+import { User } from './src/resources/user/user.model'
+import { Project } from './src/resources/project/project.model'
+
+const models = { User, Project }
 
 const url = 
     process.env.MONGODB_URI ||

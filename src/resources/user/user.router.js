@@ -1,9 +1,15 @@
 import { Router } from 'express'
-import { me, updateMe } from './user.controllers'
+import { controllers } from './user.controllers'
+import { login, register, protect } from '../../utils/auth'
+
 
 const router = Router()
 
-router.get('/', me)
-router.put('/', updateMe)
+
+router.get('/me', protect, controllers.me)
+router.put('/me', protect, controllers.updateMe)
+router.post('/login', login)
+router.post('/register', register)
+
 
 export default router

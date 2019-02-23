@@ -4,11 +4,12 @@ import bcrypt from 'bcrypt'
 const { Schema } = mongoose
 
 const userSchema = new Schema({
-    email:{
+    email: {
         type: String,
         required: true,
+        trim: true,
         unique: true,
-        trim: true
+        maxlength: 50
     },
     username: {
         type: String,

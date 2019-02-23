@@ -5,9 +5,9 @@ const baseConfig = {
   env,
   isDev: env === 'development',
   isTest: env === 'testing',
-  port: 3000,
+  port: 5000,
   secrets: {
-    jwt: process.env.JWT_SECRET,
+    jwt: process.env.JWT_SECRET || 'local secrets are no fun',
     jwtExp: '100d'
   }
 }

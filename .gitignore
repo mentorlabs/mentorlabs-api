@@ -79,6 +79,7 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
+# Compiled files
 dist/
 
 .vscode
