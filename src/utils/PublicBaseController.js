@@ -35,13 +35,13 @@ export class PublicBaseController {
         .exec()
 
       if (!doc) {
-        res.status(400).json({ success: false })
+        return res.status(400).json({ success: false })
       }
 
-      res.status(200).json({ success: true, data: doc })
+      return res.status(200).json({ success: true, data: doc })
     } catch (e) {
       console.error(e)
-      res.status(400).json({ success: false })
+      return res.status(400).json({ success: false })
     }
   }
 
@@ -59,12 +59,12 @@ export class PublicBaseController {
         .exec()
 
       if (!updatedDoc) {
-        res.status(400).json({ success: false })
+        return res.status(400).json({ success: false })
       }
 
-      res.status(200).json({ success: true, data: updatedDoc })
+      return res.status(200).json({ success: true, data: updatedDoc })
     } catch (e) {
-      res.status(400).json({ success: false })
+      return res.status(400).json({ success: false })
     }
   }
 
