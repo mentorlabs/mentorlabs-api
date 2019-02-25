@@ -1,4 +1,4 @@
-import controllers from '../project.controllers'
+import { controllers } from '../project.controllers'
 import { isFunction } from 'lodash'
 
 describe('project controllers', () => {
