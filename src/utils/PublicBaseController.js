@@ -3,17 +3,17 @@ export class PublicBaseController {
     this.mongooseModel = mongooseModel
   }
 
-  createOne = async (req, res) => {
+  createOne = async (req, res, next) => {
     try {
       const doc = await this.mongooseModel.create({ ...req.body })
       res.status(201).json({ success: true, data: doc })
     } catch (e) {
       console.error(e)
-      res.status(400).json({ success: false })
+      next(e)
     }
   }
 
-  getMany = async (req, res) => {
+  getMany = async (req, res, next) => {
     try {
       const docs = await this.mongooseModel
         .find({})
@@ -23,11 +23,11 @@ export class PublicBaseController {
       res.status(200).json({ success: true, data: docs })
     } catch (e) {
       console.error(e)
-      res.status(400).json({ success: false })
+      next(e)
     }
   }
 
-  getOne = async (req, res) => {
+  getOne = async (req, res, next) => {
     try {
       const doc = await this.mongooseModel
         .findOne({ _id: req.params.id })
@@ -35,17 +35,19 @@ export class PublicBaseController {
         .exec()
 
       if (!doc) {
-        return res.status(400).json({ success: false })
+        const error = new Error('Item not found')
+        error.statusCode = 404
+        throw error
       }
 
       return res.status(200).json({ success: true, data: doc })
     } catch (e) {
       console.error(e)
-      return res.status(400).json({ success: false })
+      next(e)
     }
   }
 
-  updateOne = async (req, res) => {
+  updateOne = async (req, res, next) => {
     try {
       const updatedDoc = await this.mongooseModel
         .findOneAndUpdate(
@@ -59,29 +61,33 @@ export class PublicBaseController {
         .exec()
 
       if (!updatedDoc) {
-        return res.status(400).json({ success: false })
+        const error = new Error('Item not updated')
+        error.statusCode = 400
+        throw error
       }
 
       return res.status(200).json({ success: true, data: updatedDoc })
     } catch (e) {
-      return res.status(400).json({ success: false })
+      next(e)
     }
   }
 
-  removeOne = async (req, res) => {
+  removeOne = async (req, res, next) => {
     try {
       const removed = await this.mongooseModel.findOneAndRemove({
         _id: req.params.id
       })
 
       if (!removed) {
-        return res.status(400).json({ success: false })
+        const error = new Error('Item not deleted')
+        error.statusCode = 400
+        throw error
       }
 
       return res.status(200).json({ success: true, data: removed })
     } catch (e) {
       console.error(e)
-      res.status(400).json({ success: false })
+      next(e)
     }
   }
 

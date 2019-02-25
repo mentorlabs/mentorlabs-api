@@ -4,7 +4,7 @@ import cors from 'cors'
 import bodyParser from 'body-parser'
 import config from './config'
 import { connect } from './utils/db'
-import { statusHandler } from './utils/error-handler'
+import { statusHandler } from './utils/errorHandler'
 import { publicRouter, protectedRouter } from './resources/router'
 
 export const app = express()

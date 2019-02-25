@@ -5,7 +5,7 @@ export class BaseController {
     this.mongooseModel = mongooseModel
   }
 
-  createOne = async (req, res) => {
+  createOne = async (req, res, next) => {
     let createdBy
     _.isNil(req.user) ? (createdBy = 'default') : (createdBy = req.user._id)
 
@@ -14,12 +14,11 @@ export class BaseController {
       const doc = await this.mongooseModel.create({ ...req.body, createdBy })
       res.status(201).json({ data: doc })
     } catch (e) {
-      console.error(e)
-      res.status(400).json({ error: e })
+      next(e)
     }
   }
 
-  getOne = async (req, res) => {
+  getOne = async (req, res, next) => {
     try {
       const doc = await this.mongooseModel
         .findOne({ createdBy: req.user._id, _id: req.params.id })
@@ -27,17 +26,19 @@ export class BaseController {
         .exec()
 
       if (!doc) {
-        return res.status(400).end()
+        const error = new Error('This item does not seem to exist')
+        error.statusCode = 404
+        throw error
       }
 
       res.status(200).json({ data: doc })
     } catch (e) {
       console.error(e)
-      res.status(400).end()
+      next(e)
     }
   }
 
-  getMany = async (req, res) => {
+  getMany = async (req, res, next) => {
     try {
       const docs = await this.mongooseModel
         .find({ createdBy: req.user._id })
@@ -47,11 +48,11 @@ export class BaseController {
       res.status(200).json({ data: docs })
     } catch (e) {
       console.error(e)
-      res.status(400).end()
+      next(e)
     }
   }
 
-  updateOne = async (req, res) => {
+  updateOne = async (req, res, next) => {
     try {
       const updatedDoc = await this.mongooseModel
         .findOneAndUpdate(
@@ -66,17 +67,17 @@ export class BaseController {
         .exec()
 
       if (!updatedDoc) {
-        return res.status(400).end()
+        throw new Error('Something went wrong updating this item')
       }
 
       res.status(200).json({ data: updatedDoc })
     } catch (e) {
       console.error(e)
-      res.status(400).end()
+      next(e)
     }
   }
 
-  removeOne = async (req, res) => {
+  removeOne = async (req, res, next) => {
     try {
       const removed = await this.mongooseModel.findOneAndRemove({
         createdBy: req.user._id,
@@ -84,13 +85,13 @@ export class BaseController {
       })
 
       if (!removed) {
-        return res.status(400).end()
+        throw new Error('Something went wrong removing this item')
       }
 
       return res.status(200).json({ data: removed })
     } catch (e) {
       console.error(e)
-      res.status(400).end()
+      next(e)
     }
   }
 
